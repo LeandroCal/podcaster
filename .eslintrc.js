@@ -14,7 +14,7 @@ module.exports = {
       ecmaFeatures: {
         jsx: true,
       },
-      ecmaVersion: 12,
+      ecmaVersion: 2020,
       sourceType: 'module',
     },
     plugins: [
@@ -22,7 +22,37 @@ module.exports = {
       '@typescript-eslint',
     ],
     rules: {
-      // Aquí defines tus reglas de ESLint
-    },
-  };
+        // General rules
+        "semi": ["error", "always"],
+        "quotes": ["error", "single"],
+        "indent": ["error", 2],
+        "no-console": ["warn"],
+        "no-unused-vars": ["warn"],
+        "no-debugger": ["warn"],
+
+        // React specific rules
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+        "react/prop-types": "off",
+        "react/jsx-props-no-spreading": "off",
+
+        // TypeScript rules
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "@typescript-eslint/consistent-type-imports": ["error"],
+
+        // Prettier rules
+        // "prettier/prettier": [
+        //     "error",
+        //     {
+        //         "singleQuote": true,
+        //         "trailingComma": "es5",
+        //         "semi": true,
+        //         "printWidth": 80,
+        //         "bracketSpacing": true
+        //     }
+        // ]
+    }
+};
   
