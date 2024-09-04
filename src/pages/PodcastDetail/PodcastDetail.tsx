@@ -6,8 +6,10 @@ import { useParams } from 'react-router-dom';
 import EpisodeListSkeleton from '../../components/Skeleton/EpisodeListSkeleton/EpisodeListSkeleton';
 import EpisodesList from '../../components/EpisodesList/EpisodesList';
 import { useAlert } from '../../context/AlertContext';
+import { useTranslation } from 'react-i18next';
 
 const PodcastDetail: React.FC = () => {
+  const { t } = useTranslation();
   const { idPodcast } = useParams<{ idPodcast: string }>();
   const [episodes, setEpisodes] = useState<TEpisode[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,12 +24,12 @@ const PodcastDetail: React.FC = () => {
         if (data) {
           setEpisodes(data);
         } else {
-          openAlert('Failed to fetch episodes. Please try again later.');
+          openAlert(t('errorAlert.episodes'));
           setError(true);
         }
       }
     } catch {
-      openAlert('Hubo un error al cargar los episodios.');
+      openAlert(t('errorAlert.episodes'));
       setError(true);
     } finally {
       setLoading(false);
@@ -52,13 +54,13 @@ const PodcastDetail: React.FC = () => {
             className="cursor-pointer text-black underline text-2xl font-bold flex items-center gap-1 hover:text-gray-600"
             onClick={handleRetry}
           >
-            Refresh
+            {t('button.refresh')}
           </div>
         </div>
       ) : (
         <div className="flex flex-col gap-4">
           <div className="border border-gray-300 text-3xl font-bold mb-4 p-4">
-            Episodes: {episodes.length}
+            {t('episodesTitle')}: {episodes.length}
           </div>
           <div className="border border-gray-300 p-4">
             <EpisodesList episodes={episodes} idPodcast={idPodcast || ''} />

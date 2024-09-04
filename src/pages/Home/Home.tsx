@@ -4,8 +4,10 @@ import type { TPodcast } from '../../types';
 import PodcastCard from '../../components/PodcastCard/PodcastCard';
 import PodcastCardSkeleton from '../../components/Skeleton/PodcastCardSkeleton/PodcastCardSkeleton';
 import { useAlert } from '../../context/AlertContext';
+import { useTranslation } from 'react-i18next';
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   const [podcasts, setPodcasts] = useState<TPodcast[]>([]);
   const [filter, setFilter] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
@@ -19,11 +21,11 @@ const Home: React.FC = () => {
       if (data) {
         setPodcasts(data);
       } else {
-        openAlert('Failed to fetch podcasts. Please try again later.');
+        openAlert(t('errorAlert.podcasts'));
         setError(true);
       }
     } catch {
-      openAlert('Failed to fetch podcasts. Please try again later.');
+      openAlert(t('errorAlert.podcasts'));
       setError(true);
     } finally {
       setLoading(false);
@@ -52,7 +54,7 @@ const Home: React.FC = () => {
         </div>
         <input
           type="text"
-          placeholder="Filter podcasts..."
+          placeholder={t('placeholderSearch')}
           className="p-2 border border-gray-300 rounded w-full max-w-xs"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -69,7 +71,7 @@ const Home: React.FC = () => {
               className="cursor-pointer text-black underline text-2xl font-bold flex items-center gap-1 hover:text-gray-600"
               onClick={handleRetry}
             >
-              Refresh
+              {t('button.refresh')}
             </div>
           </div>
         ) : (

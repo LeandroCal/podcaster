@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { IPodcastCardProps } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 const PodcastCard: React.FC<IPodcastCardProps> = ({ podcast }) => {
+  const { t } = useTranslation();
   const { id, title, author, img } = podcast;
 
   return (
@@ -19,7 +21,9 @@ const PodcastCard: React.FC<IPodcastCardProps> = ({ podcast }) => {
         </div>
         <div className="text-center px-4 mt-16 pb-4">
           <div className="text-lg font-bold mb-1">{title}</div>
-          <div className="text-sm text-gray-500">Author: {author}</div>
+          <div className="text-sm text-gray-500">
+            {t('podcastAuthor')}: {author}
+          </div>
         </div>
       </div>
     </Link>

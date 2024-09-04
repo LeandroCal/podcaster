@@ -1,0 +1,27 @@
+{
+    "appTitle": "Podcaster",
+    "placeholderSearch": "Filter podcasts...",
+    "button": {
+        "back": "Back to episode list",
+        "refresh": "Refresh"
+    },
+    "episodesTitle": "Episodes",
+    "episodeTable": {
+        "title": "Title",
+        "date": "Date",
+        "duration": "Duration"
+    },
+    "podcastAuthor": "Author",
+    "byAuthor": "by",
+    "audioError": "Your browser does not support the audio element.",
+    "notFoundCode": "404",
+    "notFoundText": "Page Not Found",
+    "errorAlert": {
+        "podcasts": "Failed to fetch podcasts. Please try again later.",
+        "episodes": "Failed to fetch episodes. Please try again later."
+    },
+    "flag": {
+        "spain": "Spain flag",
+        "uk": "United Kingdom flag"
+    }
+}

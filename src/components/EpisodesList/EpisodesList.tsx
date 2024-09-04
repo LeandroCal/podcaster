@@ -2,17 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import type { TEpisode } from '../../types';
 import { formatReleaseDate, formatTrackTime } from '../../utils/functions';
+import { useTranslation } from 'react-i18next';
 
 const EpisodesList: React.FC<{ episodes: TEpisode[]; idPodcast: string }> = ({
   episodes,
   idPodcast,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row justify-between items-center border-b-2 py-4 font-bold">
-        <div className="w-[70%]">Title</div>
-        <div className="w-[15%] text-center">Date</div>
-        <div className="w-[15%] text-end">Duration</div>
+        <div className="w-[70%]">{t('episodeTable.title')}</div>
+        <div className="w-[15%] text-center">{t('episodeTable.date')}</div>
+        <div className="w-[15%] text-end">{t('episodeTable.duration')}</div>
       </div>
 
       {episodes.map((episode, index) => (

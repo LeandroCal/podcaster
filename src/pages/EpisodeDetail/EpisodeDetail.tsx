@@ -3,8 +3,10 @@ import DetailLayout from '../../layouts/DetailLayout/DetailLayout';
 import type { TEpisode } from '../../types';
 import { Link, useParams } from 'react-router-dom';
 import { ReactComponent as BackIcon } from '../../assets/icons/Back.svg';
+import { useTranslation } from 'react-i18next';
 
 const EpisodeDetail: React.FC = () => {
+  const { t } = useTranslation();
   const { idPodcast, idEpisode } = useParams<{
     idPodcast: string;
     idEpisode: string;
@@ -29,7 +31,7 @@ const EpisodeDetail: React.FC = () => {
     return (
       <audio controls className="w-full">
         <source src={episode.episodeUrl} type="audio/mpeg" />
-        Your browser does not support the audio element.
+        {t('audioError')}
       </audio>
     );
   }, [episode?.episodeUrl]);
@@ -51,7 +53,7 @@ const EpisodeDetail: React.FC = () => {
           className="text-blue-600 underline flex items-center gap-1 hover:text-blue-800"
         >
           <BackIcon />
-          Back to episode list
+          {t('button.back')}
         </Link>
       </div>
     </>

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import type { IDetailLayoutProps, TPodcast } from '../../types';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const DetailLayout: React.FC<IDetailLayoutProps> = ({ mainContent }) => {
+  const { t } = useTranslation();
   const { idPodcast } = useParams<{ idPodcast: string }>();
   const [podcast, setPodcast] = useState<TPodcast | null>(null);
 
@@ -35,7 +37,7 @@ const DetailLayout: React.FC<IDetailLayoutProps> = ({ mainContent }) => {
               {podcast?.title}
             </div>
             <div className="text-lg italic mb-3 border-b border-gray-200 md:pb-2">
-              by {podcast?.author}
+              {t('byAuthor')} {podcast?.author}
             </div>
             <div>{podcast?.description}</div>
           </div>

@@ -1,0 +1,27 @@
+{
+    "appTitle": "Podcaster",
+    "placeholderSearch": "Filtrar podcasts...",
+    "button": {
+        "back": "Volver a la lista de episodios",
+        "refresh": "Actualizar"
+    },
+    "episodesTitle": "Episodios",
+    "episodeTable": {
+        "title": "Título",
+        "date": "Fecha",
+        "duration": "Duración"
+    },
+    "podcastAuthor": "Autor",
+    "byAuthor": "por",
+    "audioError": "Tu navegador no soporta el elemento de audio.",
+    "notFoundCode": "404",
+    "notFoundText": "Página no encontrada",
+    "errorAlert": {
+        "podcasts": "Error al recuperar los podcasts. Por favor, intenta de nuevo más tarde.",
+        "episodes": "Error al recuperar los episodios. Por favor, intenta de nuevo más tarde."
+    },
+    "flag": {
+        "spain": "Bandera de España",
+        "uk": "Bandera de Reino Unido"
+    }
+}
