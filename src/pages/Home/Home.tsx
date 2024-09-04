@@ -1,23 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchPodcasts } from '../../services/podcastService';
+import type { TPodcast } from '../../types';
+import PodcastCard from '../../components/PodcastCard/PodcastCard';
+import PodcastCardSkeleton from '../../components/Skeleton/PodcastCardSkeleton/PodcastCardSkeleton';
 
 const Home: React.FC = () => {
-  const podcasts = [
-    { id: 1, title: 'Podcast 1', description: 'Description for Podcast 1' },
-    { id: 2, title: 'Podcast 2', description: 'Description for Podcast 2' },
-    { id: 3, title: 'Podcast 3', description: 'Description for Podcast 3' },
-  ];
+  const [podcasts, setPodcasts] = useState<TPodcast[]>([]);
+  const [filter, setFilter] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const getPodcasts = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchPodcasts();
+        setPodcasts(data);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getPodcasts();
+  }, []);
+
+  const filteredPodcasts = podcasts.filter(
+    (podcast: TPodcast) =>
+      podcast.author.toLowerCase().includes(filter.toLowerCase()) ||
+      podcast.title.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Podcasts</h1>
-      <ul className="list-disc pl-5 space-y-2">
-        {podcasts.map(podcast => (
-          <li key={podcast.id} className="border p-4 rounded-md shadow-sm">
-            <h2 className="text-xl font-semibold">{podcast.title}</h2>
-            <p>{podcast.description}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="flex flex-col gap-6 my-4">
+      <div className="flex justify-end items-center gap-2">
+        <div className="bg-blue-500 text-white px-3 py-1 rounded-full font-semibold text-md">
+          {filter ? filteredPodcasts.length : podcasts.length}
+        </div>
+        <input
+          type="text"
+          placeholder="Filter podcasts..."
+          className="p-2 border border-gray-300 rounded w-full max-w-xs"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {loading
+          ? Array.from({ length: 12 }).map((_, index) => (
+              <PodcastCardSkeleton key={index} />
+            ))
+          : filteredPodcasts.map((podcast: TPodcast) => (
+              <PodcastCard key={podcast.id} podcast={podcast} />
+            ))}
+      </div>
     </div>
   );
 };
