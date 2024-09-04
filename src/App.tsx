@@ -6,20 +6,23 @@ import EpisodeDetail from './pages/EpisodeDetail/EpisodeDetail';
 import NotFound from './pages/NotFound/NotFound';
 import MainLayout from './layouts/MainLayout/MainLayout';
 import './styles/global.css';
+import { AlertProvider } from './context/AlertContext';
 
 function App() {
   return (
     <Router>
       <MainLayout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/podcast/:idPodcast" element={<PodcastDetail />} />
-          <Route
-            path="/podcast/:idPodcast/episode/:idEpisode"
-            element={<EpisodeDetail />}
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AlertProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/podcast/:idPodcast" element={<PodcastDetail />} />
+            <Route
+              path="/podcast/:idPodcast/episode/:idEpisode"
+              element={<EpisodeDetail />}
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AlertProvider>
       </MainLayout>
     </Router>
   );

@@ -3,24 +3,40 @@ import { fetchPodcasts } from '../../services/podcastService';
 import type { TPodcast } from '../../types';
 import PodcastCard from '../../components/PodcastCard/PodcastCard';
 import PodcastCardSkeleton from '../../components/Skeleton/PodcastCardSkeleton/PodcastCardSkeleton';
+import { useAlert } from '../../context/AlertContext';
 
 const Home: React.FC = () => {
   const [podcasts, setPodcasts] = useState<TPodcast[]>([]);
   const [filter, setFilter] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
+  const { openAlert } = useAlert();
+
+  const getPodcasts = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchPodcasts();
+      if (data) {
+        setPodcasts(data);
+      } else {
+        openAlert('Failed to fetch podcasts. Please try again later.');
+        setError(true);
+      }
+    } catch {
+      openAlert('Failed to fetch podcasts. Please try again later.');
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const getPodcasts = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchPodcasts();
-        setPodcasts(data);
-      } finally {
-        setLoading(false);
-      }
-    };
     getPodcasts();
   }, []);
+
+  const handleRetry = () => {
+    getPodcasts();
+  };
 
   const filteredPodcasts = podcasts.filter(
     (podcast: TPodcast) =>
@@ -43,13 +59,24 @@ const Home: React.FC = () => {
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {loading
-          ? Array.from({ length: 12 }).map((_, index) => (
-              <PodcastCardSkeleton key={index} />
-            ))
-          : filteredPodcasts.map((podcast: TPodcast) => (
-              <PodcastCard key={podcast.id} podcast={podcast} />
-            ))}
+        {loading ? (
+          Array.from({ length: 12 }).map((_, index) => (
+            <PodcastCardSkeleton key={index} />
+          ))
+        ) : error ? (
+          <div className="flex justify-center">
+            <div
+              className="cursor-pointer text-black underline text-2xl font-bold flex items-center gap-1 hover:text-gray-600"
+              onClick={handleRetry}
+            >
+              Refresh
+            </div>
+          </div>
+        ) : (
+          filteredPodcasts.map((podcast: TPodcast) => (
+            <PodcastCard key={podcast.id} podcast={podcast} />
+          ))
+        )}
       </div>
     </div>
   );
