@@ -1,46 +1,76 @@
-# Getting Started with Create React App
+# Podcast Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a podcast application with three views:
+- A homepage displaying a list of podcasts.
+- A podcast detail page that shows detailed information about a selected podcast along with a list of its episodes.
+- An episode detail page that shows information about a selected episode.
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+### Install Dependencies
+After downloading the project, the first step is to install the dependencies by running:
+
+### `npm install`
+
+### Environment Setup
+Rename the `.env.example` file to `.env` to use environment variables properly.
+
+### Available Scripts
+
+In the project directory, you can run the following commands:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Runs the app in development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+### Production-Like Mode
+To simulate how the application would look in production mode, modify the `GENERATE_SOURCEMAP` environment variable by setting it to `false`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Alternatively, you can build the app for production using the following command:
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This will build the app for production into the `build` folder. The build is optimized, and the filenames are hashed.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To serve the production build locally, you can use the `serve` package by installing it globally:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm install -g serve`
+### `serve -s build`
+
+Or use `npx` to run `serve` without global installation:
+
+### `npx serve -s build`
+
+### Linting and Formatting
+
+You can check your code for linting errors using:
+
+### `npm run lint`
+
+To apply formatting defined in Prettier, run:
+
+### `npm run format`
+
+### `npm test`
+
+Launches the test runner in interactive watch mode.
+
+### `npm run test:coverage`
+
+Runs the tests and generates a code coverage report. After the tests finish, it will open the coverage report in your default browser.
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Note: This is a one-way operation. Once you `eject`, you cannot go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+If you want full control over the build configurations (Webpack, Babel, ESLint, etc.), you can run `npm run eject`. This will copy all configuration files and dependencies into your project, allowing you to customize them as needed.
 
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To learn more about React, check out the [React documentation](https://reactjs.org/).
