@@ -15,12 +15,18 @@ export const formatReleaseDate = (dateString: string): string => {
   return date.toLocaleDateString();
 };
 
-export const formatTrackTime = (trackTimeMillis: number): string  => {
-  const minutes = Math.floor(trackTimeMillis / 60000);
+export const formatTrackTime = (trackTimeMillis: number): string => {
+  const hours = Math.floor(trackTimeMillis / 3600000);
+  const minutes = Math.floor((trackTimeMillis % 3600000) / 60000);
   const seconds = Math.floor((trackTimeMillis % 60000) / 1000)
     .toString()
     .padStart(2, '0');
-  return `${minutes}:${seconds}`;
+
+  if (hours > 0) {
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds}`;
+  } else {
+    return `${minutes}:${seconds}`;
+  }
 };
 
 export const mapPodcastData = (

@@ -6,7 +6,9 @@ const MainLayout: React.FC<IMainLayoutProps> = ({ children }) => {
   return (
     <div>
       <Header />
-      <main className="container mx-auto p-4">{children}</main>
+      <main data-testid="main-content" className="container mx-auto p-4">
+        {children}
+      </main>
     </div>
   );
 };

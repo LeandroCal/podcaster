@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import type { IDetailLayoutProps, TPodcast } from '../../types';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const DetailLayout: React.FC<IDetailLayoutProps> = ({ mainContent }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { idPodcast } = useParams<{ idPodcast: string }>();
   const [podcast, setPodcast] = useState<TPodcast | null>(null);
 
@@ -17,9 +18,11 @@ const DetailLayout: React.FC<IDetailLayoutProps> = ({ mainContent }) => {
         setPodcast(selectedPodcast);
       } else {
         console.error('Podcast not found');
+        navigate('/');
       }
     } else {
       console.error('No podcasts found in localStorage');
+      navigate('/');
     }
   }, [idPodcast]);
 

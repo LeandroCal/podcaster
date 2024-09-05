@@ -48,20 +48,20 @@ const Header: React.FC = () => {
               </div>
             )}
             <div
-              className={`cursor-pointer ${currentLanguage === 'en' ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`${currentLanguage === 'en' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer '}`}
               onClick={() =>
                 currentLanguage !== 'en' && handleChangeLanguage('en')
               }
             >
-              <img className="h-6" src={spainFlag} alt={t('flag.spain')} />
+              <img className="h-6" src={ukFlag} alt={t('flag.uk')} />
             </div>
             <div
-              className={`cursor-pointer ${currentLanguage === 'es' ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`${currentLanguage === 'es' ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
               onClick={() =>
                 currentLanguage !== 'es' && handleChangeLanguage('es')
               }
             >
-              <img className="h-6" src={ukFlag} alt={t('flag.uk')} />
+              <img className="h-6" src={spainFlag} alt={t('flag.spain')} />
             </div>
           </div>
         </div>
