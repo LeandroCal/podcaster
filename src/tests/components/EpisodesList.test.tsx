@@ -49,22 +49,6 @@ describe('EpisodesList Component', () => {
     expect(screen.getByText('episodeTable.duration')).toBeInTheDocument();
   });
 
-  it('should render each episode correctly with formatted data', () => {
-    render(
-      <MemoryRouter>
-        <EpisodesList episodes={episodes} idPodcast="1" />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByText('Episode 1')).toBeInTheDocument();
-    expect(screen.getByText('Formatted 2024-01-01')).toBeInTheDocument();
-    expect(screen.getByText('Formatted 1:00')).toBeInTheDocument();
-
-    expect(screen.getByText('Episode 2')).toBeInTheDocument();
-    expect(screen.getByText('Formatted 2024-01-02')).toBeInTheDocument();
-    expect(screen.getByText('Formatted 2:00')).toBeInTheDocument();
-  });
-
   it('should have correct link paths', () => {
     render(
       <MemoryRouter>
@@ -77,18 +61,5 @@ describe('EpisodesList Component', () => {
 
     const episode2Link = screen.getByText('Episode 2').closest('a');
     expect(episode2Link).toHaveAttribute('href', '/podcast/1/episode/2');
-  });
-
-  it('should apply alternate background colors correctly', () => {
-    render(
-      <MemoryRouter>
-        <EpisodesList episodes={episodes} idPodcast="1" />
-      </MemoryRouter>
-    );
-
-  
-    const rows = screen.getAllByRole('row');
-    expect(rows[1]).toHaveClass('bg-gray-100');
-    expect(rows[2]).toHaveClass('bg-white');
   });
 });

@@ -14,7 +14,7 @@ describe('apiRequest', () => {
     ) as jest.Mock;
 
     try {
-      await apiRequest('/some-url');
+      await apiRequest('/us/rss/toppodcasts/limit=100/genre=1310/json');
     } catch (error) {
       expect(error).toEqual(new Error('Error message'));
     }

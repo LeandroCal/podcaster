@@ -5,25 +5,28 @@ import PodcastDetail from '../../pages/PodcastDetail/PodcastDetail';
 import { fetchEpisodes } from '../../services/episodeService';
 import { useAlert } from '../../context/AlertContext';
 
+// Mock de la función fetchEpisodes
 jest.mock('../../services/episodeService', () => ({
   fetchEpisodes: jest.fn(),
 }));
 
+// Mock del contexto AlertContext
 jest.mock('../../context/AlertContext', () => ({
   useAlert: jest.fn().mockReturnValue({
     isAlertOpen: false,
     alertMessage: '',
     openAlert: jest.fn(),
-    closeAlert: jest.fn(),
   }),
 }));
 
+// Mock de react-i18next
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
   }),
 }));
 
+// Mock de react-router-dom
 jest.mock('react-router-dom', () => ({
   useParams: () => ({
     idPodcast: '1',
@@ -34,7 +37,6 @@ describe('PodcastDetail', () => {
   const mockFetchEpisodes = fetchEpisodes as jest.MockedFunction<
     typeof fetchEpisodes
   >;
-  const mockUseAlert = useAlert as jest.MockedFunction<typeof useAlert>;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -42,7 +44,7 @@ describe('PodcastDetail', () => {
 
   test('should render loading skeleton initially', () => {
     mockFetchEpisodes.mockResolvedValueOnce([]);
-    render(<PodcastDetail />);
+    render(<PodcastDetail fetchEpisodes={fetchEpisodes} />); // Pasar fetchEpisodes como prop
     expect(screen.getByTestId('episode-list-skeleton')).toBeInTheDocument();
   });
 
@@ -61,8 +63,9 @@ describe('PodcastDetail', () => {
         episodeUrl: 'http://example.com/2.mp3',
       },
     ];
+
     mockFetchEpisodes.mockResolvedValueOnce(mockEpisodes);
-    render(<PodcastDetail />);
+    render(<PodcastDetail fetchEpisodes={fetchEpisodes} />); // Pasar fetchEpisodes como prop
 
     await waitFor(() => {
       expect(screen.getByText('episodesTitle: 2')).toBeInTheDocument();
@@ -74,14 +77,13 @@ describe('PodcastDetail', () => {
   test('should handle fetch error and allow retry', async () => {
     mockFetchEpisodes.mockRejectedValueOnce(new Error('Fetch error'));
     const mockOpenAlert = jest.fn();
-    mockUseAlert.mockReturnValue({
+    (useAlert as jest.Mock).mockReturnValue({
       isAlertOpen: false,
       alertMessage: '',
       openAlert: mockOpenAlert,
-      closeAlert: jest.fn(),
     });
 
-    render(<PodcastDetail />);
+    render(<PodcastDetail fetchEpisodes={fetchEpisodes} />); // Pasar fetchEpisodes como prop
 
     await waitFor(() => {
       expect(screen.getByText('button.refresh')).toBeInTheDocument();

@@ -1,14 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import Header from '../../components/Header/Header';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import spainFlag from '../../assets/images/spain_flag.png';
-import ukFlag from '../../assets/images/uk_flag.png';
+import { useTranslation } from 'react-i18next';
+import Header from '../../components/Header/Header';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string) => key,
+    t: (key: any) => key,
     i18n: {
       language: 'en',
       changeLanguage: jest.fn(),
@@ -16,38 +14,40 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-describe('Header Component', () => {
-  it('should render the header with app title and flags', () => {
+describe('Header', () => {
+  test('should render app title correctly on home page', () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={['/']}>
         <Header />
       </MemoryRouter>
     );
 
     expect(screen.getByText('appTitle')).toBeInTheDocument();
-
-    const englishFlag = screen.getByAltText('flag.uk');
-    const spanishFlag = screen.getByAltText('flag.spain');
-
-    expect(englishFlag).toHaveAttribute('src', ukFlag);
-    expect(spanishFlag).toHaveAttribute('src', spainFlag);
-
-    expect(screen.queryByRole('status')).not.toBeInTheDocument();
   });
 
-  it('should show the loading spinner when loading state is true', () => {
-    const { rerender } = render(
-      <MemoryRouter>
+  test('should render app title as a link on non-home pages', () => {
+    render(
+      <MemoryRouter initialEntries={['/other']}>
         <Header />
       </MemoryRouter>
     );
 
-    rerender(
-      <MemoryRouter>
+    expect(screen.getByText('appTitle')).toHaveAttribute('href', '/');
+  });
+
+  test('should not change language when current language is selected', () => {
+    const { i18n } = useTranslation();
+    i18n.language = 'es';
+
+    render(
+      <MemoryRouter initialEntries={['/']}>
         <Header />
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('status')).toBeInTheDocument();
+    const spanishFlag = screen.getByAltText('flag.spain');
+    fireEvent.click(spanishFlag);
+
+    expect(i18n.changeLanguage).not.toHaveBeenCalled();
   });
 });

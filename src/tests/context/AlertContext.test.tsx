@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { AlertProvider, useAlert } from '../../context/AlertContext';
 
 const TestComponent: React.FC = () => {
-  const { openAlert, closeAlert, isAlertOpen, alertMessage } = useAlert();
+  const { openAlert, isAlertOpen, alertMessage } = useAlert();
 
   return (
     <div>
@@ -15,9 +15,6 @@ const TestComponent: React.FC = () => {
         Trigger Alert
       </button>
       {isAlertOpen && <div data-testid="alert-message">{alertMessage}</div>}
-      <button onClick={closeAlert} data-testid="close-alert-button">
-        Close Alert
-      </button>
     </div>
   );
 };
@@ -54,6 +51,7 @@ describe('AlertContext', () => {
   test('should throw error if useAlert is used outside of AlertProvider', () => {
     const consoleErrorSpy = jest
       .spyOn(console, 'error')
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       .mockImplementation(() => {});
 
     expect(() => render(<TestComponentWithoutProvider />)).toThrow(

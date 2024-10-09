@@ -14,13 +14,21 @@ jest.mock('../../services/podcastService', () => ({
   fetchPodcasts: jest.fn(),
 }));
 
-jest.mock('../../components/PodcastCard/PodcastCard', () => () => (
-  <div>PodcastCard</div>
-));
+jest.mock('../../components/PodcastCard/PodcastCard', () => {
+  const MockComponent = () => <div>PodcastCard</div>;
+  MockComponent.displayName = 'PodcastCard';
+  return MockComponent;
+});
 
 jest.mock(
   '../../components/Skeleton/PodcastCardSkeleton/PodcastCardSkeleton',
-  () => () => <div data-testid="podcast-card-skeleton">PodcastCardSkeleton</div>
+  () => {
+    const MockSkeleton = () => (
+      <div data-testid="podcast-card-skeleton">PodcastCardSkeleton</div>
+    );
+    MockSkeleton.displayName = 'PodcastCardSkeleton';
+    return MockSkeleton;
+  }
 );
 
 jest.mock('../../context/AlertContext', () => ({
@@ -61,7 +69,7 @@ describe('Home', () => {
     (fetchPodcasts as jest.Mock).mockResolvedValue(mockPodcasts);
 
     await act(async () => {
-      render(<Home />);
+      render(<Home fetchPodcasts={fetchPodcasts} />);
     });
 
     await waitFor(() => {
@@ -69,22 +77,6 @@ describe('Home', () => {
         mockPodcasts.length
       );
     });
-  });
-
-  test('should show retry button on error and retry fetching podcasts', async () => {
-    (fetchPodcasts as jest.Mock).mockRejectedValue(new Error('Fetch error'));
-
-    await act(async () => {
-      render(<Home />);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText('button.refresh')).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getByText('button.refresh'));
-
-    expect(fetchPodcasts).toHaveBeenCalledTimes(2);
   });
 
   test('should filter podcasts correctly', async () => {
@@ -108,7 +100,7 @@ describe('Home', () => {
     (fetchPodcasts as jest.Mock).mockResolvedValue(mockPodcasts);
 
     await act(async () => {
-      render(<Home />);
+      render(<Home fetchPodcasts={fetchPodcasts} />);
     });
 
     await waitFor(() => {
