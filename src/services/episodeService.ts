@@ -20,6 +20,12 @@ export const fetchEpisodes = async (podcastId: number) => {
     const response = await apiRequest(
       `/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode&limit=20`
     );
+
+    if (response.status.http_code !== 200) {
+      const errorMessage = `Error ${response.status.http_code}: ${response.contents}`;
+      throw new Error(errorMessage);
+    }
+
     const data: IEpisodeApiResponse = await JSON.parse(response.contents);
     const episodes: TEpisode[] = data.results.map(mapEpisodeData);
 
@@ -31,6 +37,14 @@ export const fetchEpisodes = async (podcastId: number) => {
 
     return episodes;
   } catch (error) {
-    console.error('Error fetching episodes:', error);
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      console.warn('Fetch aborted by user');
+    } else if (error instanceof TypeError) {
+      throw new Error('Network error. Please check your connection.');
+    } else if (error instanceof Error) {
+      throw new Error(error.message || 'An unknown error occurred.');
+    } else {
+      throw new Error('An unexpected error occurred.');
+    }
   }
 };

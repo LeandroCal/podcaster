@@ -7,11 +7,23 @@ export const fetchPodcasts = async () => {
     const storedData = localStorage.getItem('podcasts');
     const storedTimestamp = localStorage.getItem('podcasts_timestamp');
 
-    if (storedData && storedTimestamp && !isDataExpired(Number(storedTimestamp))) {
+    if (
+      storedData &&
+      storedTimestamp &&
+      !isDataExpired(Number(storedTimestamp))
+    ) {
       return JSON.parse(storedData);
     }
 
-    const response = await apiRequest('/us/rss/toppodcasts/limit=100/genre=1310/json');
+    const response = await apiRequest(
+      '/us/rss/toppodcasts/limit=100/genre=1310/json'
+    );
+
+    if (response.status.http_code !== 200) {
+      const errorMessage = `Error ${response.status.http_code}: ${response.contents}`;
+      throw new Error(errorMessage);
+    }
+
     const data = await JSON.parse(response.contents);
     const podcasts: TPodcast[] = data.feed.entry.map(mapPodcastData);
 
@@ -20,6 +32,14 @@ export const fetchPodcasts = async () => {
 
     return podcasts;
   } catch (error) {
-    console.error('Error fetching podcasts:', error);
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      console.warn('Fetch aborted by user');
+    } else if (error instanceof TypeError) {
+      throw new Error('Network error. Please check your connection.');
+    } else if (error instanceof Error) {
+      throw new Error(error.message || 'An unknown error occurred.');
+    } else {
+      throw new Error('An unexpected error occurred.');
+    }
   }
 };

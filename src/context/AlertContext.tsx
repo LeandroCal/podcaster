@@ -24,17 +24,16 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({
     setIsAlertOpen(true);
   };
 
-  const closeAlert = () => {
-    setIsAlertOpen(false);
-    setAlertMessage('');
-  };
-
   return (
-    <AlertContext.Provider
-      value={{ isAlertOpen, alertMessage, openAlert, closeAlert }}
-    >
+    <AlertContext.Provider value={{ isAlertOpen, alertMessage, openAlert }}>
       {children}
-      {isAlertOpen && <Alert message={alertMessage} type="error" />}
+      {isAlertOpen && (
+        <Alert
+          message={alertMessage}
+          type="error"
+          setIsAlertOpen={setIsAlertOpen}
+        />
+      )}
     </AlertContext.Provider>
   );
 };

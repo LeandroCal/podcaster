@@ -4,11 +4,13 @@ const Alert: React.FC<{
   message: string;
   type?: 'success' | 'error' | 'warning' | 'info';
   duration?: number;
-}> = ({ message, type = 'info', duration = 3000 }) => {
+  setIsAlertOpen: (value: boolean) => void;
+}> = ({ message, type = 'info', duration = 3000, setIsAlertOpen }) => {
   const [visible, setVisible] = useState<boolean>(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      setIsAlertOpen && setIsAlertOpen(false);
       setVisible(false);
     }, duration);
 
