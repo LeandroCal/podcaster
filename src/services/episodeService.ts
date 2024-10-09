@@ -1,5 +1,6 @@
 import type { IEpisodeApiResponse, TEpisode } from '../types';
 import { isDataExpired, mapEpisodeData } from '../utils/functions';
+import { validateEpisodesData } from '../utils/validations';
 import { apiRequest } from './api';
 
 export const fetchEpisodes = async (podcastId: number) => {
@@ -27,6 +28,11 @@ export const fetchEpisodes = async (podcastId: number) => {
     }
 
     const data: IEpisodeApiResponse = await JSON.parse(response.contents);
+
+    if (!validateEpisodesData(data)) {
+      throw new Error('Invalid data format received from the server');
+    }
+
     const episodes: TEpisode[] = data.results.map(mapEpisodeData);
 
     localStorage.setItem(`episodes_${podcastId}`, JSON.stringify(episodes));

@@ -1,5 +1,6 @@
 import type { TPodcast } from '../types';
 import { isDataExpired, mapPodcastData } from '../utils/functions';
+import { validatePodcastsData } from '../utils/validations';
 import { apiRequest } from './api';
 
 export const fetchPodcasts = async () => {
@@ -25,6 +26,11 @@ export const fetchPodcasts = async () => {
     }
 
     const data = await JSON.parse(response.contents);
+
+    if (!validatePodcastsData(data)) {
+      throw new Error('Invalid podcast data format received from the server');
+    }
+
     const podcasts: TPodcast[] = data.feed.entry.map(mapPodcastData);
 
     localStorage.setItem('podcasts', JSON.stringify(podcasts));

@@ -1,28 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { fetchPodcasts } from '../../services/podcastService';
+import React, { useState } from 'react';
 import type { TPodcast } from '../../types';
 import PodcastCard from '../../components/PodcastCard/PodcastCard';
 import PodcastCardSkeleton from '../../components/Skeleton/PodcastCardSkeleton/PodcastCardSkeleton';
 import { useTranslation } from 'react-i18next';
 import useFetchData from '../../hooks/useFetchData';
+import { validateInput } from '../../utils/validations';
+import type { HomeProps } from './Home.decl';
 
-const Home: React.FC = () => {
+const Home: React.FC<HomeProps> = ({ fetchPodcasts }) => {
   const { t } = useTranslation();
   const [filter, setFilter] = useState<string>('');
+  const [filterError, setFilterError] = useState<string>('');
 
   const {
     data: podcasts,
     loading,
     error,
-    fetchData: getPodcasts,
-  } = useFetchData<TPodcast[]>(fetchPodcasts);
-
-  useEffect(() => {
-    getPodcasts();
-  }, []);
+  } = useFetchData<TPodcast[]>(fetchPodcasts, []);
 
   const handleRetry = () => {
-    getPodcasts();
+    fetchPodcasts();
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    const errorMessage = validateInput(input);
+    setFilter(input);
+    setFilterError(errorMessage);
   };
 
   const filteredPodcasts = podcasts?.filter(
@@ -33,18 +37,24 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-6 my-4">
-      <div className="flex justify-end items-center gap-2">
-        <div className="bg-blue-500 text-white px-3 py-1 rounded-full font-semibold text-md">
+      <div className="flex justify-end items-start gap-2 w-full">
+        <div className="bg-blue-500 text-white mt-1 px-3 py-1 rounded-full font-semibold text-md flex-shrink-0">
           {filter ? filteredPodcasts?.length : podcasts?.length || 0}
         </div>
-        <input
-          type="text"
-          placeholder={t('placeholderSearch')}
-          className="p-2 border border-gray-300 rounded w-full max-w-xs"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        />
+        <div className="flex flex-col w-full lg:w-[330px]">
+          <input
+            type="text"
+            placeholder={t('placeholderSearch')}
+            className={`p-2 border ${filterError ? 'border-rose-500' : 'border-gray-300'} rounded w-full outline-none`}
+            value={filter}
+            onChange={handleChange}
+          />
+          {filterError && (
+            <div className="text-red-500 text-sm mt-1">{t(filterError)}</div>
+          )}
+        </div>
       </div>
+
       <>
         {error ? (
           <div className="flex justify-center items-center h-full">

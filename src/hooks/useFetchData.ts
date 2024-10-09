@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAlert } from '../context/AlertContext';
 
-const useFetchData = <T>(fetchFunction: () => Promise<T>) => {
+const useFetchData = <T>(
+  fetchFunction: () => Promise<T>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dependencies: any[] = []
+) => {
   const { openAlert } = useAlert();
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -24,7 +28,11 @@ const useFetchData = <T>(fetchFunction: () => Promise<T>) => {
     }
   };
 
-  return { data, loading, error, fetchData };
+  useEffect(() => {
+    fetchData();
+  }, dependencies);
+
+  return { data, loading, error };
 };
 
 export default useFetchData;

@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import DetailLayout from '../../layouts/DetailLayout/DetailLayout';
-import { fetchEpisodes } from '../../services/episodeService';
 import type { TEpisode } from '../../types';
 import { useParams } from 'react-router-dom';
 import EpisodeListSkeleton from '../../components/Skeleton/EpisodeListSkeleton/EpisodeListSkeleton';
 import EpisodesList from '../../components/EpisodesList/EpisodesList';
 import { useTranslation } from 'react-i18next';
 import useFetchData from '../../hooks/useFetchData';
+import type { PodcastDetailProps } from './PodcastDetail.decl';
 
-const PodcastDetail: React.FC = () => {
+const PodcastDetail: React.FC<PodcastDetailProps> = ({ fetchEpisodes }) => {
   const { t } = useTranslation();
   const { idPodcast } = useParams<{ idPodcast: string }>();
 
@@ -16,15 +16,13 @@ const PodcastDetail: React.FC = () => {
     data: episodes,
     loading,
     error,
-    fetchData: getEpisodes,
-  } = useFetchData<TEpisode[]>(() => fetchEpisodes(Number(idPodcast)));
-
-  useEffect(() => {
-    getEpisodes();
-  }, [idPodcast]);
+  } = useFetchData<TEpisode[]>(
+    () => fetchEpisodes(Number(idPodcast)),
+    [idPodcast]
+  );
 
   const handleRetry = () => {
-    getEpisodes();
+    idPodcast && fetchEpisodes(Number(idPodcast));
   };
 
   const mainContent = (
