@@ -28,7 +28,7 @@ const DetailLayout: React.FC<IDetailLayoutProps> = ({ mainContent }) => {
 
   return (
     <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-12 my-4">
-      <div className="w-full md:w-3/12 lg:w-4/12 p-4 border border-gray-300 h-fit">
+      <div className="podcast-aside w-full md:w-3/12 lg:w-4/12 p-4 border border-gray-300 h-fit">
         <div className="flex flex-col md:flex-col sm:flex-row gap-4 md:gap-2">
           <img
             src={podcast?.img}

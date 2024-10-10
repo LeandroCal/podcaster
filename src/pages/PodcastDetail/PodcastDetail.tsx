@@ -40,7 +40,7 @@ const PodcastDetail: React.FC<PodcastDetailProps> = ({ fetchEpisodes }) => {
         </div>
       ) : (
         <div className="flex flex-col gap-4">
-          <div className="border border-gray-300 text-3xl font-bold mb-4 p-4">
+          <div className="episodes-count border border-gray-300 text-3xl font-bold mb-4 p-4">
             {t('episodesTitle')}: {episodes?.length || 0}
           </div>
           <div className="border border-gray-300 p-4">

@@ -11,7 +11,7 @@ const EpisodesList: React.FC<{ episodes: TEpisode[]; idPodcast: string }> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col">
+    <div className="episodes-list flex flex-col">
       <div className="flex flex-row justify-between items-center border-b-2 py-4 font-bold">
         <div className="w-[70%]">{t('episodeTable.title')}</div>
         <div className="w-[15%] text-center">{t('episodeTable.date')}</div>

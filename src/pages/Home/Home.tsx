@@ -38,7 +38,7 @@ const Home: React.FC<HomeProps> = ({ fetchPodcasts }) => {
   return (
     <div className="flex flex-col gap-6 my-4">
       <div className="flex justify-end items-start gap-2 w-full">
-        <div className="bg-blue-500 text-white mt-1 px-3 py-1 rounded-full font-semibold text-md flex-shrink-0">
+        <div className="podcast-count bg-blue-500 text-white mt-1 px-3 py-1 rounded-full font-semibold text-md flex-shrink-0">
           {filter ? filteredPodcasts?.length : podcasts?.length || 0}
         </div>
         <div className="flex flex-col w-full lg:w-[330px]">
@@ -59,7 +59,7 @@ const Home: React.FC<HomeProps> = ({ fetchPodcasts }) => {
         {error ? (
           <div className="flex justify-center items-center h-full">
             <div
-              className="cursor-pointer text-black underline text-2xl font-bold flex items-center gap-1 hover:text-gray-600"
+              className="refresh-button cursor-pointer text-black underline text-2xl font-bold flex items-center gap-1 hover:text-gray-600"
               onClick={handleRetry}
             >
               {t('button.refresh')}

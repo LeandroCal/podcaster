@@ -29,7 +29,7 @@ const EpisodeDetail: React.FC = () => {
     if (!episode?.episodeUrl) return null;
 
     return (
-      <audio controls className="w-full">
+      <audio controls className="episode-audio w-full">
         <source src={episode.episodeUrl} type="audio/mpeg" />
         {t('audioError')}
       </audio>
@@ -42,6 +42,7 @@ const EpisodeDetail: React.FC = () => {
         <div className="flex flex-col gap-4">
           <div className="text-2xl font-bold">{episode?.trackName}</div>
           <div
+            className="episode-description"
             dangerouslySetInnerHTML={{ __html: episode?.description || '' }}
           />
           {audioContent}
@@ -50,7 +51,7 @@ const EpisodeDetail: React.FC = () => {
       <div className="w-fit">
         <Link
           to={`/podcast/${idPodcast}`}
-          className="text-blue-600 underline flex items-center gap-1 hover:text-blue-800"
+          className="back-button text-blue-600 underline flex items-center gap-1 hover:text-blue-800"
         >
           <BackIcon />
           {t('button.back')}

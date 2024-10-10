@@ -3,7 +3,7 @@ import React from 'react';
 const PodcastCardSkeleton: React.FC = () => {
   return (
     <div
-      className="relative mt-24 p-4 border border-gray-300 rounded bg-white shadow-md animate-pulse"
+      className="podcast-skeleton relative mt-24 p-4 border border-gray-300 rounded bg-white shadow-md animate-pulse"
       data-testid="podcast-card-skeleton"
     >
       <div
