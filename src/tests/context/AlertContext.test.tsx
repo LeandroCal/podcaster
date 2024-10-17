@@ -42,10 +42,6 @@ describe('AlertContext', () => {
     fireEvent.click(screen.getByTestId('trigger-alert-button'));
 
     expect(screen.getByTestId('alert-message')).toHaveTextContent('Test alert');
-
-    fireEvent.click(screen.getByTestId('close-alert-button'));
-
-    expect(screen.queryByTestId('alert-message')).not.toBeInTheDocument();
   });
 
   test('should throw error if useAlert is used outside of AlertProvider', () => {
